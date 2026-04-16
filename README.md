@@ -1,50 +1,42 @@
-# Welcome to your Expo app 👋
+# OTA Updates con Expo — Ejemplo
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Repositorio de ejemplo con la configuración de **OTA (Over-The-Air) updates** usando [expo-updates](https://docs.expo.dev/versions/latest/sdk/updates/) y EAS Update, mantenido por [@gartnerleandro](https://github.com/gartnerleandro).
 
-## Get started
+El proyecto incluye una integración funcional de `expo-updates` con:
 
-1. Install dependencies
+- Detección automática de actualizaciones disponibles.
+- Descarga y aplicación de la nueva versión.
+- Un `UpdateRequiredModal` de ejemplo para avisar al usuario.
+- Hook `useAppUpdate` reutilizable.
+- Changelog de la actualización en `constants/updateChangelog.ts`.
 
-   ```bash
-   npm install
-   ```
+## Guía completa paso a paso
 
-2. Start the app
+Tienes la guía detallada, con todos los pasos para configurar EAS Update desde cero, en este mismo repositorio:
 
-   ```bash
-   npx expo start
-   ```
+👉 [**OTA-UPDATES-GUIDE.md**](./OTA-UPDATES-GUIDE.md)
 
-In the output, you'll find options to open the app in a
+Cubre desde instalar la CLI de EAS hasta publicar tu primera actualización en producción.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Guía en vídeo en YouTube
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+También tengo una **guía completa en vídeo** en mi canal de YouTube donde explico:
 
-## Get a fresh project
+- Qué es una OTA update y para qué sirve.
+- Cómo funciona por dentro (runtime version, channels, manifest, etc.).
+- Cómo configurarla paso a paso en tu proyecto Expo.
 
-When you're ready, run:
+🎥 [**Ver el vídeo en YouTube**](https://youtu.be/_9LzHZnjyGQ)
+
+## Empezar con el proyecto
 
 ```bash
-npm run reset-project
+pnpm install
+pnpm start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Recuerda sustituir en `app.json` los placeholders `<TU_PROJECT_ID>` y `<TU_EXPO_USER>` por los tuyos después de ejecutar `eas init`.
 
-## Learn more
+## Licencia
 
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Código libre para usar como referencia en tus propios proyectos.
