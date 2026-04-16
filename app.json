@@ -12,7 +12,7 @@
       "policy": "appVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/56a72a1e-ab17-45ce-bc77-a71f7f4c10cf",
+      "url": "https://u.expo.dev/<TU_PROJECT_ID>",
       "fallbackToCacheTimeout": 0,
       "checkAutomatically": "ON_ERROR_RECOVERY",
       "requestHeaders": {
@@ -21,7 +21,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.devbeleuvemedia.otaupdates"
+      "bundleIdentifier": "com.example.otaupdates"
     },
     "android": {
       "adaptiveIcon": {
@@ -32,7 +32,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.devbeleuvemedia.otaupdates"
+      "package": "com.example.otaupdates"
     },
     "web": {
       "output": "static",
@@ -61,9 +61,9 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "56a72a1e-ab17-45ce-bc77-a71f7f4c10cf"
+        "projectId": "<TU_PROJECT_ID>"
       }
     },
-    "owner": "gartnerleandro"
+    "owner": "<TU_EXPO_USER>"
   }
 }
