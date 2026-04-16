@@ -8,8 +8,20 @@
     "scheme": "otaupdates",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/56a72a1e-ab17-45ce-bc77-a71f7f4c10cf",
+      "fallbackToCacheTimeout": 0,
+      "checkAutomatically": "ON_ERROR_RECOVERY",
+      "requestHeaders": {
+        "expo-channel-name": "production"
+      }
+    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.devbeleuvemedia.otaupdates"
     },
     "android": {
       "adaptiveIcon": {
@@ -19,7 +31,8 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.devbeleuvemedia.otaupdates"
     },
     "web": {
       "output": "static",
@@ -27,6 +40,7 @@
     },
     "plugins": [
       "expo-router",
+      "expo-updates",
       [
         "expo-splash-screen",
         {
@@ -43,6 +57,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "56a72a1e-ab17-45ce-bc77-a71f7f4c10cf"
+      }
+    },
+    "owner": "gartnerleandro"
   }
 }
