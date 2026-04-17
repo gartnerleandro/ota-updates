@@ -25,7 +25,7 @@ También tengo una **guía completa en vídeo** en mi canal de YouTube donde exp
 - Cómo funciona por dentro (runtime version, channels, manifest, etc.).
 - Cómo configurarla paso a paso en tu proyecto Expo.
 
-🎥 [**Ver el vídeo en YouTube**](https://youtu.be/6tPZEK2Jl-s)
+[![https://www.youtube.com/watch?v=J3Fmrh6UybQ](https://github.com/user-attachments/assets/698efa2a-4134-4db1-8367-9c45b2f75cd5)](https://youtu.be/6tPZEK2Jl-s)
 
 ## Empezar con el proyecto
 
