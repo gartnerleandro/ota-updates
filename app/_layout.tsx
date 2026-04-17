@@ -1,5 +1,4 @@
 import { UpdateRequiredModal } from "@/components/UpdateRequiredModal";
-import { CURRENT_CHANGELOG } from "@/constants/updateChangelog";
 import { useAppUpdate } from "@/hooks/useAppUpdate";
 import {
   DarkTheme,
@@ -22,12 +21,7 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      {isUpdateReady && (
-        <UpdateRequiredModal
-          onUpdate={applyUpdate}
-          changelogItems={CURRENT_CHANGELOG}
-        />
-      )}
+      {isUpdateReady && <UpdateRequiredModal onUpdate={applyUpdate} />}
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen

@@ -8,7 +8,6 @@ El proyecto incluye una integración funcional de `expo-updates` con:
 - Descarga y aplicación de la nueva versión.
 - Un `UpdateRequiredModal` de ejemplo para avisar al usuario.
 - Hook `useAppUpdate` reutilizable.
-- Changelog de la actualización en `constants/updateChangelog.ts`.
 
 ## Guía completa paso a paso
 

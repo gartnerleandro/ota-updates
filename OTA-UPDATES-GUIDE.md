@@ -211,38 +211,20 @@ export function useAppUpdate() {
 Crear `components/UpdateRequiredModal.tsx`. Conceptos clave:
 
 - **Modal no-dismissible** (sin botón de cerrar) — fuerza al usuario a actualizar para evitar fragmentación de versiones.
-- Muestra un changelog con items de tipo `feature` y `fix`.
-- Animaciones con `FadeInDown` escalonados para cada item del changelog.
+- Animación de entrada con `FadeIn`.
 - Overlay oscuro semi-transparente (`rgba(0, 0, 0, 0.7)`).
 - Card blanca centrada con `maxWidth: 340`.
 
 ```typescript
 import { StyleSheet, View, Text, Pressable } from 'react-native';
-import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
-import { ArrowDownToLine, Sparkles, Wrench } from 'lucide-react-native';
-import type { ChangelogItem } from '@/constants/updateChangelog';
+import Animated, { FadeIn } from 'react-native-reanimated';
+import { ArrowDownToLine } from 'lucide-react-native';
 
 interface UpdateRequiredModalProps {
   onUpdate: () => void;
-  changelogItems?: ChangelogItem[];
 }
 
-const CHANGELOG_CONFIG = {
-  feature: {
-    icon: Sparkles,
-    color: '#22C55E',       // verde — adapata a tu theme
-    background: '#F0FDF4',
-  },
-  fix: {
-    icon: Wrench,
-    color: '#3B82F6',       // azul — adapta a tu theme
-    background: '#EFF6FF',
-  },
-} as const;
-
-export function UpdateRequiredModal({ onUpdate, changelogItems }: UpdateRequiredModalProps) {
-  const hasChangelog = changelogItems && changelogItems.length > 0;
-
+export function UpdateRequiredModal({ onUpdate }: UpdateRequiredModalProps) {
   return (
     <Animated.View entering={FadeIn.duration(300)} style={styles.overlay}>
       <View style={styles.card}>
@@ -251,38 +233,9 @@ export function UpdateRequiredModal({ onUpdate, changelogItems }: UpdateRequired
         </View>
 
         <Text style={styles.title}>Actualización disponible</Text>
-        <Text style={[styles.description, hasChangelog && styles.descriptionWithChangelog]}>
+        <Text style={styles.description}>
           Hay una nueva versión disponible. Actualiza ahora para continuar.
         </Text>
-
-        {hasChangelog && (
-          <>
-            <Animated.Text
-              entering={FadeInDown.delay(300).duration(250)}
-              style={styles.sectionHeader}
-            >
-              Novedades
-            </Animated.Text>
-            <View style={styles.changelogList}>
-              {changelogItems.map((item, index) => {
-                const config = CHANGELOG_CONFIG[item.type];
-                const Icon = config.icon;
-                return (
-                  <Animated.View
-                    key={index}
-                    entering={FadeInDown.delay(400 + index * 80).duration(300)}
-                    style={styles.changelogItem}
-                  >
-                    <View style={[styles.changelogIcon, { backgroundColor: config.background }]}>
-                      <Icon size={16} color={config.color} />
-                    </View>
-                    <Text style={styles.changelogText}>{item.description}</Text>
-                  </Animated.View>
-                );
-              })}
-            </View>
-          </>
-        )}
 
         <Pressable
           style={({ pressed }) => [styles.button, pressed && styles.buttonPressed]}
@@ -339,42 +292,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 24,
   },
-  descriptionWithChangelog: {
-    marginBottom: 0,
-  },
-  sectionHeader: {
-    fontWeight: '600',
-    fontSize: 13,
-    color: '#94A3B8',
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-    alignSelf: 'flex-start',
-    marginTop: 16,
-    marginBottom: 8,
-  },
-  changelogList: {
-    width: '100%',
-    gap: 12,
-    marginBottom: 24,
-  },
-  changelogItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  changelogIcon: {
-    width: 32,
-    height: 32,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  changelogText: {
-    flex: 1,
-    fontWeight: '500',
-    fontSize: 14,
-    color: '#64748B',
-  },
   button: {
     backgroundColor: '#6366F1',  // adapta a tu color primario
     borderRadius: 16,
@@ -399,51 +316,24 @@ const styles = StyleSheet.create({
 
 ---
 
-## Paso 7 — Crear el changelog
-
-Crear `constants/updateChangelog.ts`:
-
-```typescript
-export type ChangelogItemType = 'fix' | 'feature';
-
-export interface ChangelogItem {
-  type: ChangelogItemType;
-  description: string;
-}
-
-// Agregar items ANTES de cada OTA deploy. Vaciar DESPUÉS del deploy.
-// Ejemplo:
-//   { type: 'feature', description: 'Nuevo temporizador de descanso' },
-//   { type: 'fix', description: 'Corrección del contador de racha' },
-export const CURRENT_CHANGELOG: ChangelogItem[] = [];
-```
-
----
-
-## Paso 8 — Montar en el root layout
+## Paso 7 — Montar en el root layout
 
 En tu `app/_layout.tsx`:
 
 ```typescript
 import { UpdateRequiredModal } from '@/components/UpdateRequiredModal';
-import { CURRENT_CHANGELOG } from '@/constants/updateChangelog';
 import { useAppUpdate } from '@/hooks/useAppUpdate';
 
 // Dentro del componente root:
 const { isUpdateReady, applyUpdate } = useAppUpdate();
 
 // En el JSX, al final de todo (después de Stack, providers, etc):
-{isUpdateReady && (
-  <UpdateRequiredModal
-    onUpdate={applyUpdate}
-    changelogItems={CURRENT_CHANGELOG}
-  />
-)}
+{isUpdateReady && <UpdateRequiredModal onUpdate={applyUpdate} />}
 ```
 
 ---
 
-## Paso 9 — Hacer el primer build nativo
+## Paso 8 — Hacer el primer build nativo
 
 **IMPORTANTE:** OTA updates solo funcionan en builds de Release (no en `expo start`). Necesitas al menos una build con `expo-updates` incluido.
 
@@ -457,20 +347,16 @@ eas build --profile preview --platform android
 
 ---
 
-## Paso 10 — Publicar tu primer OTA update
+## Paso 9 — Publicar tu primer OTA update
 
 ```bash
-# 1. Agregar cambios al CURRENT_CHANGELOG
-
-# 2. Publicar a preview primero (SIEMPRE)
+# 1. Publicar a preview primero (SIEMPRE)
 eas update --channel preview --message "feat: descripción del cambio"
 
-# 3. Testear en el build de preview
+# 2. Testear en el build de preview
 
-# 4. Si todo OK, publicar a producción
+# 3. Si todo OK, publicar a producción
 eas update --channel production --message "feat: descripción del cambio"
-
-# 5. Vaciar CURRENT_CHANGELOG
 ```
 
 ---
@@ -511,11 +397,9 @@ Consideraciones:
 
 1. Detectar bug / mejora de JS
 2. Implementar + testear local (`npm run ios`)
-3. Agregar entrada a `CURRENT_CHANGELOG` en `constants/updateChangelog.ts`
-4. `eas update --channel preview --message "..."` → validar en TestFlight / build interno
-5. `eas update --channel production --message "..."`
-6. **Vaciar `CURRENT_CHANGELOG`** para el siguiente deploy
-7. Monitorizar analytics para verificar adopción del update
+3. `eas update --channel preview --message "..."` → validar en TestFlight / build interno
+4. `eas update --channel production --message "..."`
+5. Monitorizar analytics para verificar adopción del update
 
 ---
 
@@ -526,8 +410,7 @@ Consideraciones:
 | `app.json`                           | `updates`, `runtimeVersion`, plugin `expo-updates`    |
 | `eas.json`                           | `channel` por build profile                           |
 | `hooks/useAppUpdate.ts`              | Hook que chequea, descarga y expone estado del update |
-| `components/UpdateRequiredModal.tsx` | Modal obligatorio con changelog animado               |
-| `constants/updateChangelog.ts`       | Lista de cambios visibles para el próximo OTA         |
+| `components/UpdateRequiredModal.tsx` | Modal obligatorio con animación de entrada            |
 | `app/_layout.tsx`                    | Monta el hook + modal a nivel root                    |
 
 ---
@@ -553,7 +436,6 @@ Consideraciones:
 - [ ] Crear `eas.json` (channels por profile)
 - [ ] Crear `hooks/useAppUpdate.ts`
 - [ ] Crear `components/UpdateRequiredModal.tsx`
-- [ ] Crear `constants/updateChangelog.ts`
 - [ ] Montar hook + modal en `app/_layout.tsx`
 - [ ] `eas build --profile preview` (primer build nativo)
 - [ ] `eas update --channel preview` (primer OTA de prueba)
